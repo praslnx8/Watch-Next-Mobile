@@ -37,26 +37,6 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              FlutterLogo(size: 150),
-              SizedBox(height: 50),
-              _signInButton(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _signInButton() {
     return OutlineButton(
       splashColor: Colors.grey,
@@ -84,6 +64,26 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             )
           ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: Colors.white,
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              FlutterLogo(size: 150),
+              SizedBox(height: 50),
+              _signInButton(),
+            ],
+          ),
         ),
       ),
     );

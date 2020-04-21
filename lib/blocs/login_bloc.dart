@@ -30,11 +30,7 @@ class LoginBloc extends Bloc {
 
     final FirebaseUser user = await _auth.signInWithCredential(credential);
 
-    assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
-
     final FirebaseUser currentUser = await _auth.currentUser();
-    assert(user.uid == currentUser.uid);
 
     _loginResultSink.add(ViewState.setData(1));
   }
