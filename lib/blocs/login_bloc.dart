@@ -19,20 +19,26 @@ class LoginBloc extends Bloc {
       _loginController.stream;
 
   Future<void> signInWithGoogle() async {
-    final GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount.authentication;
+    try {
+      final GoogleSignInAccount googleSignInAccount =
+          await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
 
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      accessToken: googleSignInAuthentication.accessToken,
-      idToken: googleSignInAuthentication.idToken,
-    );
+      final AuthCredential credential = GoogleAuthProvider.getCredential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
 
-    final FirebaseUser user = await _auth.signInWithCredential(credential);
+      final FirebaseUser user = await _auth.signInWithCredential(credential);
 
-    final FirebaseUser currentUser = await _auth.currentUser();
+      final FirebaseUser currentUser = await _auth.currentUser();
 
-    _loginResultSink.add(ViewState.setData(1));
+      _loginResultSink.add(ViewState.setData(1));
+    } catch (err) {
+      print(err);
+      _loginResultSink.add(ViewState.setData(1));
+    }
   }
 
   void signOutGoogle() async {
