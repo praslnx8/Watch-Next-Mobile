@@ -13,6 +13,9 @@
 *.iml
 *.ipr
 *.iws
+.flutter-plugins-dependencies
+.flutter-plugins
+.packages
 .idea/
 
 # The .vscode folder contains launch configuration and tasks you configure in

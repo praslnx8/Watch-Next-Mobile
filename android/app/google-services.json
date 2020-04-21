@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "599880473159",
+    "firebase_url": "https://watch-next-ml.firebaseio.com",
+    "project_id": "watch-next-ml",
+    "storage_bucket": "watch-next-ml.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599880473159:android:4e07c131c831d78d2eef62",
+        "android_client_info": {
+          "package_name": "recommendation.movies.movie_suggestion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599880473159-fld71vu7dsqomc44l08qaad5le5dsd4g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuhQWh5dLuS8jTldS_f5Yw6qdpffQdFJE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599880473159-fld71vu7dsqomc44l08qaad5le5dsd4g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
