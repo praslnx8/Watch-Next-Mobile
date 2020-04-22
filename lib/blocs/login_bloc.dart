@@ -31,8 +31,7 @@ class LoginBloc extends Bloc {
       );
 
       final FirebaseUser user = await _auth.signInWithCredential(credential);
-
-      final FirebaseUser currentUser = await _auth.currentUser();
+      //TODO send idToken to api and login.
 
       _loginResultSink.add(ViewState.setData(1));
     } catch (err) {
