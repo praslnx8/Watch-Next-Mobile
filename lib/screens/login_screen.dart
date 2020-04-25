@@ -1,7 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:movie_suggestion/core/auth_util.dart';
+import 'package:movie_suggestion/queries/login_query.dart';
 import 'package:movie_suggestion/screens/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -12,21 +12,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String doLogin = r'''
-  mutation login($idToken: String!) {
-    login(idToken: $idToken) {
-      name
-    }
-  }
-  ''';
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  bool _isChecking = true;
 
   void _navigateToHome() {
-    Navigator.of(context).push(
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) {
           return HomeScreen();
@@ -35,13 +24,14 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _signInButton(bool isLoading) {
+  Widget _signInButton() {
     return Mutation(
         options: MutationOptions(
-            documentNode: gql(doLogin),
+            documentNode: gql(LoginQuery.loginQuery),
             onCompleted: (dynamic resultData) {
-              print(resultData);
-              _navigateToHome();
+              if (resultData['login'] != null) {
+                _navigateToHome();
+              }
             }),
         builder: (
           RunMutation runMutation,
@@ -49,76 +39,85 @@ class _LoginScreenState extends State<LoginScreen> {
         ) {
           if (result.loading) {
             return CircularProgressIndicator();
-          }
-          if (result.hasException) {
-            print(result.exception);
-          }
-          return OutlineButton(
-            splashColor: Colors.grey,
-            onPressed: () async {
-              final GoogleSignInAccount googleSignInAccount =
-                  await GoogleSignIn().signIn();
-              final GoogleSignInAuthentication googleSignInAuthentication =
-                  await googleSignInAccount.authentication;
-
-              final AuthCredential credential =
-                  GoogleAuthProvider.getCredential(
-                accessToken: googleSignInAuthentication.accessToken,
-                idToken: googleSignInAuthentication.idToken,
-              );
-
-              final FirebaseUser user =
-                  await FirebaseAuth.instance.signInWithCredential(credential);
-
-              runMutation({'idToken': await user.getIdToken()});
-            },
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-            highlightElevation: 0,
-            borderSide: BorderSide(color: Colors.grey),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Image(
-                      image: AssetImage("assets/google_logo.png"),
-                      height: 35.0),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Text(
-                      'Sign in with Google',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.grey,
+          } else if (_isChecking) {
+            _checkAndLogin(runMutation);
+            return CircularProgressIndicator();
+          } else {
+            return OutlineButton(
+              splashColor: Colors.grey,
+              onPressed: () {
+                authenticate(runMutation);
+              },
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40)),
+              highlightElevation: 0,
+              borderSide: BorderSide(color: Colors.grey),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Image(
+                        image: AssetImage("assets/google_logo.png"),
+                        height: 35.0),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Text(
+                        'Sign in with Google',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.grey,
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
-            ),
-          );
+            );
+          }
         });
+  }
+
+  Future _checkAndLogin(runMutation) async {
+    String idToken = await AuthUtil.getToken();
+
+    if (idToken != null) {
+      _isChecking = false;
+      runMutation({'idToken': idToken});
+    } else {
+      setState(() {
+        _isChecking = false;
+      });
+    }
+  }
+
+  Future authenticate(RunMutation runMutation) async {
+    final authenticatedToken = AuthUtil.authenticateUser();
+
+    if (authenticatedToken != null) {
+      runMutation({'idToken': await authenticatedToken});
+    } else {
+      //TODO show error message.
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              FlutterLogo(size: 150),
-              SizedBox(height: 50),
-              _signInButton(true),
-            ],
-          ),
+        body: Container(
+      color: Colors.white,
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            FlutterLogo(size: 150),
+            SizedBox(height: 50),
+            _signInButton(),
+          ],
         ),
       ),
-    );
+    ));
   }
 }

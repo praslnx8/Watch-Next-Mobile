@@ -3,8 +3,6 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:movie_suggestion/core/graphql_conf.dart';
 import 'package:movie_suggestion/screens/login_screen.dart';
 
-GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -19,7 +17,7 @@ class MyApp extends StatelessWidget {
         ),
         home: LoginScreen(),
       ),
-      client: graphQLConfiguration.client,
+      client: GraphQLConfiguration.client,
     );
   }
 }
