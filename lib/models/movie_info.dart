@@ -9,16 +9,15 @@ class MovieInfo {
   int noOfRating;
   bool adultContent;
 
-  MovieInfo(
-      {this.id,
-      this.title,
-      this.description,
-      this.images,
-      this.genres,
-      this.releasedDate,
-      this.rating,
-      this.noOfRating,
-      this.adultContent});
+  MovieInfo({this.id,
+    this.title,
+    this.description,
+    this.images,
+    this.genres,
+    this.releasedDate,
+    this.rating,
+    this.noOfRating,
+    this.adultContent});
 
   MovieInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -44,5 +43,14 @@ class MovieInfo {
     data['noOfRating'] = this.noOfRating;
     data['adultContent'] = this.adultContent;
     return data;
+  }
+
+  static List<MovieInfo> getMovieInfoList(dynamic json) {
+    final movies = new List<MovieInfo>();
+    json.forEach((v) {
+      movies.add(MovieInfo.fromJson(v));
+    });
+
+    return movies;
   }
 }

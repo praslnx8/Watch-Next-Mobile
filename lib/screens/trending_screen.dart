@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:movie_suggestion/core/auth_util.dart';
+import 'package:movie_suggestion/models/movie_info.dart';
 import 'package:movie_suggestion/queries/movie_query.dart';
-import 'package:movie_suggestion/queries/user_query.dart';
-import 'package:movie_suggestion/screens/home_screen.dart';
+import 'package:movie_suggestion/widgets/movie_card.dart';
 
 class TrendingScreen extends StatefulWidget {
   @override
@@ -13,7 +12,6 @@ class TrendingScreen extends StatefulWidget {
 }
 
 class _TrendingScreenState extends State<TrendingScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,8 +29,14 @@ class _TrendingScreenState extends State<TrendingScreen> {
                     return Center(child: Text(result.exception.toString()));
                   }
 
-                  final resultData = result.data['getTrendingMovies'];
-                  return Text("Loaded");
+                  final resultData = MovieInfo.getMovieInfoList(
+                      result.data['getTrendingMovies']);
+
+                  return ListView(
+                    children: resultData
+                        .map((movieInfo) => MovieCard(movieInfo))
+                        .toList(),
+                  );
                 })));
   }
 }
