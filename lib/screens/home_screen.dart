@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_suggestion/widgets/app_bar_dropdown.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key, this.title}) : super(key: key);
@@ -19,40 +20,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _counter = 0;
-
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
       'Index 0: Home',
-      style: optionStyle,
     ),
     Text(
       'Index 1: Business',
-      style: optionStyle,
     ),
     Text(
       'Index 2: School',
-      style: optionStyle,
     ),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-    });
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
     });
   }
 
@@ -66,8 +49,18 @@ class _HomeScreenState extends State<HomeScreen> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BottomNavigationBar Sample'),
+        title: AppbarDropDownWidget(),
+        actions: <Widget>[
+          IconButton(
+            tooltip: 'Search',
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              //TODO go to search page
+            },
+          )
+        ],
       ),
+      drawer: Drawer(),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
