@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:movie_suggestion/core/auth_util.dart';
-import 'package:movie_suggestion/queries/login_query.dart';
+import 'package:movie_suggestion/queries/user_query.dart';
 import 'package:movie_suggestion/screens/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {

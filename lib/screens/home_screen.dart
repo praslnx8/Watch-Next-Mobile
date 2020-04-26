@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:movie_suggestion/queries/login_query.dart';
+import 'package:movie_suggestion/queries/user_query.dart';
+import 'package:movie_suggestion/screens/trending_screen.dart';
 import 'package:movie_suggestion/widgets/app_bar_dropdown.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,10 +24,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-    ),
+
+  List<Widget> _widgetOptions = <Widget>[
+    TrendingScreen(),
     Text(
       'Index 1: Business',
     ),
