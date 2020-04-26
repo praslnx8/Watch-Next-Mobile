@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:movie_suggestion/queries/login_query.dart';
 import 'package:movie_suggestion/widgets/app_bar_dropdown.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -60,7 +62,35 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      drawer: Drawer(),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[Query(options: QueryOptions(
+            documentNode: gql(UserQuery.meQuery),
+          ), builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
+            if(result.hasException) {
+              return Text(result.exception.toString());
+            }
+            if(result.loading) {
+              return Text('Loading');
+            }
+
+            final resultData = result.data['me'];
+            return UserAccountsDrawerHeader(
+              accountName: Text(resultData['name']),
+              accountEmail: Text(resultData['email']),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
+                    ? Colors.blue
+                    : Colors.white,
+                child: Text(
+                  "A",
+                  style: TextStyle(fontSize: 40.0),
+                ),
+              ),
+            );
+          })],
+        ),
+      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),

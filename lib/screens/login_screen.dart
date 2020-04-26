@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _signInButton() {
     return Mutation(
         options: MutationOptions(
-            documentNode: gql(LoginQuery.loginQuery),
+            documentNode: gql(UserQuery.loginQuery),
             onCompleted: (dynamic resultData) {
               if (resultData['login'] != null) {
                 _navigateToHome();
