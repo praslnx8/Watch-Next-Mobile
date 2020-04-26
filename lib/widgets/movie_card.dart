@@ -53,7 +53,7 @@ class _MovieCardState extends State<MovieCard> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Poster(
-                movieInfo.images[0],
+                movieInfo.images[1],
                 height: 180.0,
               ),
               SizedBox(width: 16.0),
