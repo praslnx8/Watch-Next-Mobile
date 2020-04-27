@@ -6,7 +6,6 @@ import 'package:movie_suggestion/widgets/rating_information.dart';
 import 'arc_banner_image.dart';
 
 class MovieCard extends StatefulWidget {
-
   final MovieInfo movieInfo;
 
   MovieCard([this.movieInfo]);
@@ -16,7 +15,6 @@ class MovieCard extends StatefulWidget {
 }
 
 class _MovieCardState extends State<MovieCard> {
-
   final MovieInfo movieInfo;
 
   _MovieCardState([this.movieInfo]);
@@ -30,18 +28,23 @@ class _MovieCardState extends State<MovieCard> {
         Text(
           movieInfo.title,
           style: textTheme.title,
+          maxLines: 2,
         ),
         SizedBox(height: 8.0),
         RatingInformation(movieInfo),
         SizedBox(height: 12.0),
-        Row(children: _buildCategoryChips(textTheme)),
+        SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(children: _buildCategoryChips(textTheme))),
       ],
     );
 
-    return Stack(
+    return Card(
+      margin: EdgeInsets.all(8.0),
+        child: Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 140.0),
+          padding: const EdgeInsets.only(bottom: 160.0),
           child: ArcBannerImage(movieInfo.images[0]),
         ),
         Positioned(
@@ -62,7 +65,7 @@ class _MovieCardState extends State<MovieCard> {
           ),
         ),
       ],
-    );
+    ));
   }
 
   List<Widget> _buildCategoryChips(TextTheme textTheme) {
@@ -77,5 +80,4 @@ class _MovieCardState extends State<MovieCard> {
       );
     }).toList();
   }
-
 }
