@@ -24,6 +24,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = new PageController();
+  }
 
   List<Widget> _widgetOptions = <Widget>[
     TrendingScreen(),
@@ -35,20 +42,10 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
   ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    final pages = _widgetOptions;
+
     return Scaffold(
       appBar: AppBar(
         title: AppbarDropDownWidget(),
@@ -64,35 +61,43 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       drawer: Drawer(
         child: ListView(
-          children: <Widget>[Query(options: QueryOptions(
-            documentNode: gql(UserQuery.meQuery),
-          ), builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
-            if(result.hasException) {
-              return Text(result.exception.toString());
-            }
-            if(result.loading) {
-              return Text('Loading');
-            }
-
-            final resultData = result.data['me'];
-            return UserAccountsDrawerHeader(
-              accountName: Text(resultData['name']),
-              accountEmail: Text(resultData['email']),
-              currentAccountPicture: CircleAvatar(
-                backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
-                    ? Colors.blue
-                    : Colors.white,
-                child: Text(
-                  "A",
-                  style: TextStyle(fontSize: 40.0),
+          children: <Widget>[
+            Query(
+                options: QueryOptions(
+                  documentNode: gql(UserQuery.meQuery),
                 ),
-              ),
-            );
-          })],
+                builder: (QueryResult result,
+                    {VoidCallback refetch, FetchMore fetchMore}) {
+                  if (result.hasException) {
+                    return Text(result.exception.toString());
+                  }
+                  if (result.loading) {
+                    return Text('Loading');
+                  }
+
+                  final resultData = result.data['me'];
+                  return UserAccountsDrawerHeader(
+                    accountName: Text(resultData['name']),
+                    accountEmail: Text(resultData['email']),
+                    currentAccountPicture: CircleAvatar(
+                      backgroundColor:
+                          Theme.of(context).platform == TargetPlatform.iOS
+                              ? Colors.blue
+                              : Colors.white,
+                      child: Text(
+                        "A",
+                        style: TextStyle(fontSize: 40.0),
+                      ),
+                    ),
+                  );
+                })
+          ],
         ),
       ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      body: PageView(
+        onPageChanged: onPageChanged,
+        controller: _pageController,
+        children: pages,
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -114,5 +119,22 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: _onItemTapped,
       ),
     );
+  }
+
+  void onPageChanged(int value) {
+    setState(() {
+      this._selectedIndex = value;
+    });
+  }
+
+  void _onItemTapped(int index) {
+    _pageController.animateToPage(index,
+        duration: const Duration(milliseconds: 300), curve: Curves.ease);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 }
