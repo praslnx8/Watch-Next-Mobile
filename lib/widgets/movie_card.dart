@@ -25,10 +25,12 @@ class _MovieCardState extends State<MovieCard> {
     var movieInformation = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(height: 20.0),
         Text(
           movieInfo.title,
           style: textTheme.title,
-          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
         ),
         SizedBox(height: 8.0),
         RatingInformation(movieInfo),
@@ -44,7 +46,7 @@ class _MovieCardState extends State<MovieCard> {
         child: Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 160.0),
+          padding: const EdgeInsets.only(bottom: 120.0),
           child: ArcBannerImage(movieInfo.images[0]),
         ),
         Positioned(
@@ -52,12 +54,12 @@ class _MovieCardState extends State<MovieCard> {
           left: 16.0,
           right: 16.0,
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Poster(
                 movieInfo.images[1],
-                height: 180.0,
+                height: 100.0,
               ),
               SizedBox(width: 16.0),
               Expanded(child: movieInformation),
@@ -71,7 +73,7 @@ class _MovieCardState extends State<MovieCard> {
   List<Widget> _buildCategoryChips(TextTheme textTheme) {
     return movieInfo.genres.map((category) {
       return Padding(
-        padding: const EdgeInsets.only(right: 8.0),
+        padding: const EdgeInsets.only(right: 4.0),
         child: Chip(
           label: Text(category),
           labelStyle: textTheme.caption,

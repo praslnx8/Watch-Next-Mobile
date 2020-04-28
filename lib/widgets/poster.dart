@@ -5,7 +5,7 @@ class Poster extends StatelessWidget {
 
   Poster(
       this.posterUrl, {
-        this.height = 100.0,
+        this.height = 60.0,
       });
 
   final String posterUrl;
