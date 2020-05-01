@@ -2,6 +2,8 @@ class MovieInfo {
   int id;
   String title;
   String description;
+  List<String> backDrops;
+  List<String> posters;
   List<String> images;
   List<String> genres;
   int releasedDate;
@@ -23,6 +25,8 @@ class MovieInfo {
     id = json['id'];
     title = json['title'];
     description = json['description'];
+    backDrops = json['backDrops'].cast<String>();
+    posters = json['posters'].cast<String>();
     images = json['images'].cast<String>();
     genres = json['genres'].cast<String>();
     releasedDate = json['releasedDate'];
@@ -36,6 +40,8 @@ class MovieInfo {
     data['id'] = this.id;
     data['title'] = this.title;
     data['description'] = this.description;
+    data['backDrops'] = this.backDrops;
+    data['posters'] = this.posters;
     data['images'] = this.images;
     data['genres'] = this.genres;
     data['releasedDate'] = this.releasedDate;

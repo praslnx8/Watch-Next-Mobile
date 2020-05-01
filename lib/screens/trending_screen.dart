@@ -33,7 +33,7 @@ class _TrendingScreenState extends State<TrendingScreen>
                   }
 
                   final resultData = MovieInfo.getMovieInfoList(
-                      result.data['getTrendingMovies']);
+                      result.data['me']['getTrendingMovies']);
 
                   return ListView(
                     children: resultData

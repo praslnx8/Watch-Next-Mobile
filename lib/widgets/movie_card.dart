@@ -47,7 +47,7 @@ class _MovieCardState extends State<MovieCard> {
       children: [
         Padding(
           padding: const EdgeInsets.only(bottom: 120.0),
-          child: ArcBannerImage(movieInfo.images[0]),
+          child: ArcBannerImage(movieInfo.backDrops[0]),
         ),
         Positioned(
           bottom: 0.0,
@@ -58,7 +58,7 @@ class _MovieCardState extends State<MovieCard> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Poster(
-                movieInfo.images[1],
+                movieInfo.posters[0],
                 height: 100.0,
               ),
               SizedBox(width: 16.0),
