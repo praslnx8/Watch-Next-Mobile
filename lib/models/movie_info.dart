@@ -12,18 +12,21 @@ class MovieInfo {
   int noOfRating;
   bool adultContent;
   int myRating;
+  bool addedAsWatchLater;
 
-  MovieInfo({this.id,
-    this.sTypename,
-    this.title,
-    this.description,
-    this.images,
-    this.genres,
-    this.releasedDate,
-    this.rating,
-    this.noOfRating,
-    this.adultContent,
-    this.myRating});
+  MovieInfo(
+      {this.id,
+      this.sTypename,
+      this.title,
+      this.description,
+      this.images,
+      this.genres,
+      this.releasedDate,
+      this.rating,
+      this.noOfRating,
+      this.adultContent,
+      this.myRating,
+      this.addedAsWatchLater});
 
   MovieInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -39,6 +42,7 @@ class MovieInfo {
     noOfRating = json['noOfRating'];
     adultContent = json['adultContent'];
     myRating = json['myRating'];
+    addedAsWatchLater = json['addedAsWatchLater'];
   }
 
   Map<String, dynamic> toJson() {
@@ -56,6 +60,7 @@ class MovieInfo {
     data['noOfRating'] = this.noOfRating;
     data['adultContent'] = this.adultContent;
     data['myRating'] = this.myRating;
+    data['addedAsWatchLater'] = this.addedAsWatchLater;
     return data;
   }
 

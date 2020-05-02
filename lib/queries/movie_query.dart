@@ -17,7 +17,8 @@ class MovieQuery {
         rating,
         noOfRating,
         adultContent,
-        myRating
+        myRating,
+        addedAsWatchLater
     }
     }
   }
