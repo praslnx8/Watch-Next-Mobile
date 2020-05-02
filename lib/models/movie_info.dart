@@ -1,5 +1,6 @@
 class MovieInfo {
   int id;
+  String sTypename;
   String title;
   String description;
   List<String> backDrops;
@@ -10,8 +11,10 @@ class MovieInfo {
   double rating;
   int noOfRating;
   bool adultContent;
+  int myRating;
 
   MovieInfo({this.id,
+    this.sTypename,
     this.title,
     this.description,
     this.images,
@@ -19,10 +22,12 @@ class MovieInfo {
     this.releasedDate,
     this.rating,
     this.noOfRating,
-    this.adultContent});
+    this.adultContent,
+    this.myRating});
 
   MovieInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    sTypename = json['__typename'];
     title = json['title'];
     description = json['description'];
     backDrops = json['backDrops'].cast<String>();
@@ -33,11 +38,13 @@ class MovieInfo {
     rating = json['rating'];
     noOfRating = json['noOfRating'];
     adultContent = json['adultContent'];
+    myRating = json['myRating'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['__typename'] = this.sTypename;
     data['title'] = this.title;
     data['description'] = this.description;
     data['backDrops'] = this.backDrops;
@@ -48,6 +55,7 @@ class MovieInfo {
     data['rating'] = this.rating;
     data['noOfRating'] = this.noOfRating;
     data['adultContent'] = this.adultContent;
+    data['myRating'] = this.myRating;
     return data;
   }
 

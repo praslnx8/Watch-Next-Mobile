@@ -20,7 +20,7 @@ class GraphQLConfiguration {
   static ValueNotifier<GraphQLClient> client = ValueNotifier(
     GraphQLClient(
       link: _link,
-      cache: OptimisticCache(
+      cache: NormalizedInMemoryCache(
         dataIdFromObject: typenameDataIdFromObject,
       ),
     ),

@@ -10,14 +10,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
-      child: MaterialApp(
-        title: 'Watch Next',
-        theme: ThemeData(
-          primarySwatch: Colors.blueGrey
-        ),
-        home: LoginScreen(),
-      ),
       client: GraphQLConfiguration.client,
+      child: CacheProvider(
+          child: MaterialApp(
+        title: 'Watch Next',
+        theme: ThemeData(primarySwatch: Colors.blueGrey),
+        home: LoginScreen(),
+      )),
     );
   }
 }
