@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:movie_suggestion/models/movie_info.dart';
+import 'package:movie_suggestion/queries/movie_query.dart';
 import 'package:movie_suggestion/widgets/poster.dart';
 import 'package:movie_suggestion/widgets/rating_information.dart';
 
@@ -42,32 +44,66 @@ class _MovieCardState extends State<MovieCard> {
     );
 
     return Card(
-      margin: EdgeInsets.all(8.0),
+        margin: EdgeInsets.all(8.0),
         child: Stack(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 120.0),
-          child: ArcBannerImage(movieInfo.backDrops[0]),
-        ),
-        Positioned(
-          bottom: 0.0,
-          left: 16.0,
-          right: 16.0,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Poster(
-                movieInfo.posters[0],
-                height: 100.0,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 120.0),
+              child: ArcBannerImage(movieInfo.backDrops[0]),
+            ),
+            Positioned(
+                child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[_addToWatchLaterIcon()],
+            )),
+            Positioned(
+              bottom: 0.0,
+              left: 16.0,
+              right: 16.0,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Poster(
+                    movieInfo.posters[0],
+                    height: 100.0,
+                  ),
+                  SizedBox(width: 16.0),
+                  Expanded(child: movieInformation),
+                ],
               ),
-              SizedBox(width: 16.0),
-              Expanded(child: movieInformation),
-            ],
+            ),
+          ],
+        ));
+  }
+
+  Widget _addToWatchLaterIcon() {
+    return Mutation(
+      options: MutationOptions(
+          documentNode: gql(MovieQuery.addMovieToWatchLater),
+          update: _updateCache),
+      builder: (RunMutation runMutation, QueryResult queryResult) {
+        return Container(
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
+              colors: [Colors.black45, Colors.transparent]
+            )
           ),
-        ),
-      ],
-    ));
+          child: IconButton(
+            color: Colors.white,
+            onPressed: () {
+              movieInfo.addedAsWatchLater =
+              movieInfo.addedAsWatchLater ? false : true;
+              runMutation(
+                  {'movieId': movieInfo.id, 'add': movieInfo.addedAsWatchLater});
+            },
+            icon: movieInfo.addedAsWatchLater
+                ? Icon(Icons.bookmark)
+                : Icon(Icons.bookmark_border),
+          ),
+        );
+      },
+    );
   }
 
   List<Widget> _buildCategoryChips(TextTheme textTheme) {
@@ -81,5 +117,10 @@ class _MovieCardState extends State<MovieCard> {
         ),
       );
     }).toList();
+  }
+
+  _updateCache(Cache cache, QueryResult result) {
+    cache.write(
+        typenameDataIdFromObject(movieInfo.toJson()), movieInfo.toJson());
   }
 }
