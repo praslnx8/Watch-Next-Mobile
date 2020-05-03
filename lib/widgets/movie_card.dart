@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:movie_suggestion/models/movie_info.dart';
+import 'package:movie_suggestion/models/user_info.dart';
 import 'package:movie_suggestion/queries/movie_query.dart';
 import 'package:movie_suggestion/widgets/poster.dart';
 import 'package:movie_suggestion/widgets/rating_information.dart';
@@ -8,18 +9,20 @@ import 'package:movie_suggestion/widgets/rating_information.dart';
 import 'arc_banner_image.dart';
 
 class MovieCard extends StatefulWidget {
+  final UserInfo userInfo;
   final MovieInfo movieInfo;
 
-  MovieCard([this.movieInfo]);
+  MovieCard([this.userInfo, this.movieInfo]);
 
   @override
-  _MovieCardState createState() => _MovieCardState(movieInfo);
+  _MovieCardState createState() => _MovieCardState(userInfo, movieInfo);
 }
 
 class _MovieCardState extends State<MovieCard> {
+  final UserInfo userInfo;
   final MovieInfo movieInfo;
 
-  _MovieCardState([this.movieInfo]);
+  _MovieCardState([this.userInfo, this.movieInfo]);
 
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
@@ -85,17 +88,17 @@ class _MovieCardState extends State<MovieCard> {
       builder: (RunMutation runMutation, QueryResult queryResult) {
         return Container(
           decoration: BoxDecoration(
-            gradient: RadialGradient(
-              colors: [Colors.black45, Colors.transparent]
-            )
-          ),
+              gradient:
+                  RadialGradient(colors: [Colors.black45, Colors.transparent])),
           child: IconButton(
             color: Colors.white,
             onPressed: () {
               movieInfo.addedAsWatchLater =
-              movieInfo.addedAsWatchLater ? false : true;
-              runMutation(
-                  {'movieId': movieInfo.id, 'add': movieInfo.addedAsWatchLater});
+                  movieInfo.addedAsWatchLater ? false : true;
+              runMutation({
+                'movieId': movieInfo.id,
+                'add': movieInfo.addedAsWatchLater
+              });
             },
             icon: movieInfo.addedAsWatchLater
                 ? Icon(Icons.bookmark)
@@ -120,6 +123,16 @@ class _MovieCardState extends State<MovieCard> {
   }
 
   _updateCache(Cache cache, QueryResult result) {
+    final userData = cache.read(typenameDataIdFromObject(userInfo.toJson()));
+    final List<dynamic> watchLaterMovies = userData['getWatchLaterMovies'];
+    if (watchLaterMovies != null) {
+      if (movieInfo.addedAsWatchLater) {
+        watchLaterMovies.add(LazyCacheMap)
+      } else {
+
+      }
+      cache.write(typenameDataIdFromObject(userInfo.toJson()), userData);
+    }
     cache.write(
         typenameDataIdFromObject(movieInfo.toJson()), movieInfo.toJson());
   }

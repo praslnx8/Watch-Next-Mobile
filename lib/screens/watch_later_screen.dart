@@ -5,15 +5,17 @@ import 'package:movie_suggestion/models/user_info.dart';
 import 'package:movie_suggestion/queries/movie_query.dart';
 import 'package:movie_suggestion/widgets/movie_card.dart';
 
-class TrendingScreen extends StatefulWidget {
+class WatchLaterScreen extends StatefulWidget {
+
   @override
   State<StatefulWidget> createState() {
-    return _TrendingScreenState();
+    return _WatchLaterScreenState();
   }
 }
 
-class _TrendingScreenState extends State<TrendingScreen>
-    with AutomaticKeepAliveClientMixin<TrendingScreen> {
+class _WatchLaterScreenState extends State<WatchLaterScreen>
+    with AutomaticKeepAliveClientMixin<WatchLaterScreen> {
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -22,7 +24,7 @@ class _TrendingScreenState extends State<TrendingScreen>
             color: Colors.white,
             child: Query(
                 options: QueryOptions(
-                    documentNode: gql(MovieQuery.trendingMoviesQuery)),
+                    documentNode: gql(MovieQuery.watchLaterMoviesQuery)),
                 builder: (QueryResult result,
                     {VoidCallback refetch, FetchMore fetchMore}) {
                   if (result.loading) {
@@ -33,7 +35,7 @@ class _TrendingScreenState extends State<TrendingScreen>
                   }
 
                   final resultData = MovieInfo.getMovieInfoList(
-                      result.data['me']['getTrendingMovies']);
+                      result.data['me']['getWatchLaterMovies']);
 
                   final userInfo = UserInfo.fromJson(result.data['me']);
 

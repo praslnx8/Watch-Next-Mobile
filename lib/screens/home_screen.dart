@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:movie_suggestion/queries/user_query.dart';
 import 'package:movie_suggestion/screens/trending_screen.dart';
+import 'package:movie_suggestion/screens/watch_later_screen.dart';
 import 'package:movie_suggestion/widgets/app_bar_dropdown.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -37,9 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Text(
       'Index 1: Business',
     ),
-    Text(
-      'Index 2: School',
-    ),
+    WatchLaterScreen(),
   ];
 
   @override
@@ -102,16 +101,16 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
+            icon: Icon(Icons.trending_up),
+            title: Text('Trending'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            title: Text('Business'),
+            icon: Icon(Icons.watch_later),
+            title: Text('Suggestions'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            title: Text('School'),
+            icon: Icon(Icons.bookmark),
+            title: Text('Watch Next'),
           ),
         ],
         currentIndex: _selectedIndex,

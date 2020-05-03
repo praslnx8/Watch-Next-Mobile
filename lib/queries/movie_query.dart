@@ -24,6 +24,31 @@ class MovieQuery {
   }
   ''';
 
+  static String watchLaterMoviesQuery = r'''
+  query watchLaterMovies {
+    me {
+      id,
+      __typename,
+      getWatchLaterMovies {
+        id,
+        __typename,
+        title,
+        description,
+        backDrops,
+        posters,
+        images,
+        genres,
+        releasedDate,
+        rating,
+        noOfRating,
+        adultContent,
+        myRating,
+        addedAsWatchLater
+      }
+    }
+  }
+  ''';
+
   static String rateMovie = r'''
   mutation rateMovie($movieId: Long!, $rating: Int!) {
     me {
