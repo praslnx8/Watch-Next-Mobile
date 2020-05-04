@@ -38,7 +38,7 @@ class _MovieCardState extends State<MovieCard> {
           maxLines: 1,
         ),
         SizedBox(height: 8.0),
-        RatingInformation(movieInfo),
+        RatingInformation(userInfo, movieInfo),
         SizedBox(height: 12.0),
         SingleChildScrollView(
             scrollDirection: Axis.horizontal,

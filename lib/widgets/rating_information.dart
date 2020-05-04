@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:movie_suggestion/models/movie_info.dart';
+import 'package:movie_suggestion/models/user_info.dart';
 import 'package:movie_suggestion/queries/movie_query.dart';
 
 class RatingInformation extends StatelessWidget {
-  RatingInformation(this.movie);
-
+  final UserInfo userInfo;
   final MovieInfo movie;
+
+  RatingInformation(this.userInfo, this.movie);
 
   @override
   Widget build(BuildContext context) {
