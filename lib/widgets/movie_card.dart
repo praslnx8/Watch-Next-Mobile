@@ -127,7 +127,7 @@ class _MovieCardState extends State<MovieCard> {
     final List<dynamic> watchLaterMovies = userData['getWatchLaterMovies'];
     if (watchLaterMovies != null) {
       if (movieInfo.addedAsWatchLater) {
-        watchLaterMovies.add(LazyCacheMap)
+
       } else {
 
       }
