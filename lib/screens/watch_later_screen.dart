@@ -6,19 +6,15 @@ import 'package:movie_suggestion/queries/movie_query.dart';
 import 'package:movie_suggestion/widgets/movie_card.dart';
 
 class WatchLaterScreen extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() {
     return _WatchLaterScreenState();
   }
 }
 
-class _WatchLaterScreenState extends State<WatchLaterScreen>
-    with AutomaticKeepAliveClientMixin<WatchLaterScreen> {
-
+class _WatchLaterScreenState extends State<WatchLaterScreen> {
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
         body: Container(
             color: Colors.white,
@@ -36,6 +32,9 @@ class _WatchLaterScreenState extends State<WatchLaterScreen>
 
                   final resultData = MovieInfo.getMovieInfoList(
                       result.data['me']['getWatchLaterMovies']);
+                  resultData.removeWhere((movie) {
+                    return !movie.addedAsWatchLater;
+                  });
 
                   final userInfo = UserInfo.fromJson(result.data['me']);
 
@@ -46,7 +45,4 @@ class _WatchLaterScreenState extends State<WatchLaterScreen>
                   );
                 })));
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

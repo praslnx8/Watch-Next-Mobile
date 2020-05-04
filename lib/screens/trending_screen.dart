@@ -12,11 +12,9 @@ class TrendingScreen extends StatefulWidget {
   }
 }
 
-class _TrendingScreenState extends State<TrendingScreen>
-    with AutomaticKeepAliveClientMixin<TrendingScreen> {
+class _TrendingScreenState extends State<TrendingScreen> {
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
         body: Container(
             color: Colors.white,
@@ -44,7 +42,4 @@ class _TrendingScreenState extends State<TrendingScreen>
                   );
                 })));
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
